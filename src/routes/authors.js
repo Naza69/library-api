@@ -59,4 +59,26 @@ router.delete("/:id", async(_req, res) => {
     }
 })
 
+router.post('/:id/books/:bookId', async (req, res) => {
+  try {
+    const author = await Author.findById(req.params.authorId);
+    const book = await Book.findById(req.params.bookId);
+
+    if (!author) {
+      return res.status(404).json({ message: 'Autor no encontrado' });
+    }
+
+    if (!book) {
+      return res.status(404).json({ message: 'Libro no encontrado' });
+    }
+
+    author.books.push(book._id);
+    await author.save();
+
+    res.status(200).json(author);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 export default router

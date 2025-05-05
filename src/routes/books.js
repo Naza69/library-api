@@ -60,4 +60,22 @@ router.delete("/:id", async(_req, res) => {
     }
 })
 
+|router.delete('/:id', async (req, res) => {
+  try {
+    const bookId = req.params.bookId;
+
+    const authorWithBook = await Author.findOne({ books: bookId });
+
+    if (authorWithBook) {
+      return res.status(400).json({ message: 'No se pudo asignar el libro' });
+    }
+
+    await Book.findByIdAndDelete(bookId);
+
+    res.status(200).json({ message: 'Libro eliminado' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 export default router
