@@ -6,7 +6,7 @@ const authorSchema = new Schema({
     bio: {type: String},
     fechaNacimiento: {type: Date, required: true},
     nacionalidad: {type: String, required: true},
-    libros: [bookSchema]
+    libros: {type: [bookSchema]}
 })
 
 
